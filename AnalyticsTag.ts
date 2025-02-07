@@ -295,7 +295,7 @@ async function getUserData(): Promise<UserData> {
     });
     console.log(userData);
 
-    const response = await fetch('localhost:3000/analytics', {
+    const response = await fetch('127.0.0.1:3000/analytics', {
         method: 'POST',
         body: JSON.stringify(userData)
     });
