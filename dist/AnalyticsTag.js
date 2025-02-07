@@ -229,7 +229,7 @@ function getUserData() {
                         };
                     });
                     console.log(userData);
-                    return [4 /*yield*/, fetch('/analytics', {
+                    return [4 /*yield*/, fetch('localhost:3000/analytics', {
                             method: 'POST',
                             body: JSON.stringify(userData)
                         })];
