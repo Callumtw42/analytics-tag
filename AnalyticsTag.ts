@@ -37,7 +37,7 @@ interface FormSubmission {
     fields: FormField[];
 }
 
-export interface UserData {
+interface UserData {
     technical: {
         httpHeaders: {
             userAgent: string;
@@ -109,7 +109,7 @@ export interface UserData {
     };
 }
 
-export async function getUserData(): Promise<UserData> {
+async function getUserData(): Promise<UserData> {
     // User data collection structure populated with browser APIs
     const userData: UserData = {
         // Technical information
