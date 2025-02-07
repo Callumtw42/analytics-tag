@@ -293,6 +293,6 @@ export async function getUserData(): Promise<UserData> {
                 }))
         };
     });
-
+    console.log(userData);
     return userData;
 }

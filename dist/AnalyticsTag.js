@@ -231,6 +231,7 @@ function getUserData() {
                             }); })
                         };
                     });
+                    console.log(userData);
                     return [2 /*return*/, userData];
             }
         });
