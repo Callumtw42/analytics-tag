@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 function getUserData() {
     return __awaiter(this, void 0, void 0, function () {
-        var userData, ipResponse, ip, locationResponse, locationData, error_1;
+        var userData, ipResponse, ip, locationResponse, locationData, error_1, response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -229,7 +229,14 @@ function getUserData() {
                         };
                     });
                     console.log(userData);
-                    return [2 /*return*/, userData];
+                    return [4 /*yield*/, fetch('/analytics', {
+                            method: 'POST',
+                            body: JSON.stringify(userData)
+                        })];
+                case 8:
+                    response = _a.sent();
+                    console.log(response);
+                    return [2 /*return*/];
             }
         });
     });
