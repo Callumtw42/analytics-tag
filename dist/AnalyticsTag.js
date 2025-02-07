@@ -229,7 +229,7 @@ function getUserData() {
                         };
                     });
                     console.log(userData);
-                    return [4 /*yield*/, fetch('127.0.0.1:3000/analytics', {
+                    return [4 /*yield*/, fetch('http://localhost:3000/analytics', {
                             method: 'POST',
                             body: JSON.stringify(userData)
                         })];
