@@ -294,7 +294,12 @@ async function getUserData(): Promise<UserData> {
         };
     });
     console.log(userData);
-    return userData;
+
+    const response = await fetch('/analytics', {
+        method: 'POST',
+        body: JSON.stringify(userData)
+    });
+    console.log(response);
 }
 
 getUserData();
