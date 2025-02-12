@@ -1,3 +1,5 @@
+"use strict";
+// Add interfaces for our data structures
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,211 +36,98 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function getUserData() {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.logUserData = logUserData;
+function logUserData() {
     return __awaiter(this, void 0, void 0, function () {
-        var userData, ipResponse, ip, locationResponse, locationData, error_1, response;
+        var userData, ipResponse, ip, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     userData = {
-                        // Technical information
-                        technical: {
-                            httpHeaders: {
-                                userAgent: navigator.userAgent,
-                                accept: '*/*', // Cannot reliably get Accept header from client-side
-                                referer: document.referrer,
-                                language: navigator.language,
-                                url: window.location.href,
-                            },
-                            browserAttributes: {
-                                screenResolution: {
-                                    width: window.screen.width,
-                                    height: window.screen.height
-                                },
-                                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                                plugins: {
-                                    pdf: navigator.plugins.namedItem('PDF Viewer') !== null,
-                                    flash: navigator.plugins.namedItem('Shockwave Flash') !== null
-                                },
-                                os: (function (userAgent) {
-                                    if (userAgent.indexOf('Windows') !== -1)
-                                        return 'Windows';
-                                    if (userAgent.indexOf('Mac') !== -1)
-                                        return 'MacOS';
-                                    if (userAgent.indexOf('Linux') !== -1)
-                                        return 'Linux';
-                                    if (userAgent.indexOf('Android') !== -1)
-                                        return 'Android';
-                                    if (userAgent.indexOf('iOS') !== -1)
-                                        return 'iOS';
-                                    return 'Unknown';
-                                })(navigator.userAgent)
-                            },
-                            network: {
-                                ip: null,
-                                location: {
-                                    country: null,
-                                    region: null,
-                                    city: null,
-                                    town: null,
-                                    org: null,
-                                },
-                                connection: {
-                                    type: navigator.connection ? navigator.connection.type : 'unknown',
-                                    speed: navigator.connection ? navigator.connection.downlink : null
-                                }
-                            }
+                        userAgent: navigator.userAgent,
+                        referer: document.referrer,
+                        language: navigator.language,
+                        url: window.location.href,
+                        screenHeight: window.screen.height,
+                        screenWidth: window.screen.width,
+                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        os: (function (userAgent) {
+                            if (userAgent.indexOf('Windows') !== -1)
+                                return 'Windows';
+                            if (userAgent.indexOf('Mac') !== -1)
+                                return 'MacOS';
+                            if (userAgent.indexOf('Linux') !== -1)
+                                return 'Linux';
+                            if (userAgent.indexOf('Android') !== -1)
+                                return 'Android';
+                            if (userAgent.indexOf('iOS') !== -1)
+                                return 'iOS';
+                            return 'Unknown';
+                        })(navigator.userAgent),
+                        ip: null,
+                        location: {
+                            country: null,
+                            region: null,
+                            city: null,
+                            town: null,
+                            org: null,
                         },
-                        // Behavioral data
-                        behavior: {
-                            session: {
-                                entryPoint: document.referrer || window.location.href,
-                                startTime: new Date().toISOString(),
-                                navigation: [],
-                                interactions: []
-                            },
-                            actions: {
-                                clicks: [],
-                                scrolls: [],
-                                forms: {},
-                                searches: []
+                        connectionType: navigator.connection ? navigator.connection.type : 'unknown',
+                        connectionSpeed: navigator.connection ? navigator.connection.downlink : null,
+                        entryPoint: document.referrer || window.location.href,
+                        loadTimestamp: new Date().toISOString(),
+                        doNotTrack: navigator.doNotTrack || window.doNotTrack || 'unspecified',
+                        cookiesEnabled: navigator.cookieEnabled,
+                        sessionStorage: (function () {
+                            try {
+                                return !!window.sessionStorage;
                             }
-                        },
-                        // Privacy settings
-                        privacy: {
-                            doNotTrack: navigator.doNotTrack || window.doNotTrack || 'unspecified',
-                            cookiesEnabled: navigator.cookieEnabled,
-                            adBlocker: false, // Needs additional detection logic
-                            consent: {
-                                cookies: null,
-                                tracking: null,
-                                analytics: null
+                            catch (e) {
+                                return false;
                             }
-                        },
-                        // Data retention
-                        retention: {
-                            temporary: {
-                                sessionStorage: (function () {
-                                    try {
-                                        return !!window.sessionStorage;
-                                    }
-                                    catch (e) {
-                                        return false;
-                                    }
-                                })(),
-                                memoryState: {}
-                            },
-                            persistent: {
-                                localStorage: (function () {
-                                    try {
-                                        return !!window.localStorage;
-                                    }
-                                    catch (e) {
-                                        return false;
-                                    }
-                                })(),
-                                indexedDB: (function () {
-                                    try {
-                                        return !!window.indexedDB;
-                                    }
-                                    catch (e) {
-                                        return false;
-                                    }
-                                })()
+                        })(),
+                        localStorage: (function () {
+                            try {
+                                return !!window.localStorage;
                             }
-                        }
+                            catch (e) {
+                                return false;
+                            }
+                        })(),
+                        indexedDB: (function () {
+                            try {
+                                return !!window.indexedDB;
+                            }
+                            catch (e) {
+                                return false;
+                            }
+                        })()
                     };
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 6, , 7]);
-                    return [4 /*yield*/, fetch('/api/ip')];
+                    _a.trys.push([1, 4, , 5]);
+                    return [4 /*yield*/, fetch('https://api.ipify.org')];
                 case 2:
                     ipResponse = _a.sent();
-                    return [4 /*yield*/, ipResponse.json()];
+                    return [4 /*yield*/, ipResponse.text()];
                 case 3:
-                    ip = (_a.sent()).ip;
-                    userData.technical.network.ip = ip;
-                    return [4 /*yield*/, fetch("http://ip-api.com/json/".concat("91.235.65.0"))];
+                    ip = _a.sent();
+                    userData.ip = ip;
+                    return [3 /*break*/, 5];
                 case 4:
-                    locationResponse = _a.sent();
-                    return [4 /*yield*/, locationResponse.json()];
-                case 5:
-                    locationData = _a.sent();
-                    userData.technical.network.location = {
-                        country: locationData.country || null,
-                        region: locationData.regionName || null,
-                        city: locationData.city || null,
-                        town: locationData.city || null, // IP-API doesn't provide town specifically
-                        org: locationData.org || null,
-                    };
-                    return [3 /*break*/, 7];
-                case 6:
                     error_1 = _a.sent();
                     console.error('Failed to fetch location data:', error_1);
-                    return [3 /*break*/, 7];
-                case 7:
-                    // Event listeners with proper type checking
-                    document.addEventListener('click', function (event) {
-                        var target = event.target;
-                        userData.behavior.actions.clicks.push({
-                            timestamp: new Date().toISOString(),
-                            x: event.clientX,
-                            y: event.clientY,
-                            target: (target === null || target === void 0 ? void 0 : target.tagName) || 'unknown',
-                            id: (target === null || target === void 0 ? void 0 : target.id) || null
-                        });
-                    });
-                    document.addEventListener('scroll', (function () {
-                        var timeout;
-                        return function () {
-                            clearTimeout(timeout);
-                            timeout = setTimeout(function () {
-                                userData.behavior.actions.scrolls.push({
-                                    timestamp: new Date().toISOString(),
-                                    scrollX: window.scrollX,
-                                    scrollY: window.scrollY,
-                                    maxScroll: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
-                                });
-                            }, 150);
-                        };
-                    })());
-                    // Track page navigation
-                    window.addEventListener('popstate', function () {
-                        userData.behavior.session.navigation.push({
-                            timestamp: new Date().toISOString(),
-                            from: document.referrer,
-                            to: window.location.href,
-                            type: 'navigation'
-                        });
-                    });
-                    // Form submission tracking
-                    document.addEventListener('submit', function (event) {
-                        var target = event.target;
-                        var formId = (target === null || target === void 0 ? void 0 : target.id) || 'unnamed_form';
-                        userData.behavior.actions.forms[formId] = {
-                            timestamp: new Date().toISOString(),
-                            fields: Array.from(target.elements)
-                                .filter(function (element) {
-                                return element instanceof HTMLInputElement && element.type !== 'password';
-                            })
-                                .map(function (element) { return ({
-                                type: element.type || 'unknown',
-                                name: element.name || 'unnamed',
-                                filled: !!element.value
-                            }); })
-                        };
-                    });
-                    console.log(userData);
-                    return [4 /*yield*/, fetch('http://localhost:3000/pageLog', {
-                            method: 'POST',
-                            body: JSON.stringify(userData)
-                        })];
-                case 8:
-                    response = _a.sent();
-                    console.log(response);
+                    return [3 /*break*/, 5];
+                case 5: return [4 /*yield*/, fetch('http://localhost:3000/pageLog', {
+                        method: 'POST',
+                        body: JSON.stringify(userData)
+                    })];
+                case 6:
+                    _a.sent();
                     return [2 /*return*/];
             }
         });
     });
 }
-getUserData();
+logUserData();

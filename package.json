@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev": "nodemon index.js",
+    "dev": "nodemon --watch index.js",
     "build": "tsc AnalyticsTag.ts --outDir dist"
   },
   "keywords": [],
@@ -14,8 +13,8 @@
   "dependencies": {
     "@fastify/cors": "^8.5.0",
     "@google-cloud/bigquery": "^7.9.1",
-    "fastify": "^4.26.1",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "fastify": "^4.26.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"

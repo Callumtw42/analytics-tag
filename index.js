@@ -1,12 +1,25 @@
-require('dotenv').config()
-const fastify = require('fastify')({ 
+const prettyPrint = (data) => {
+    // Convert to formatted JSON string first
+    const formatted = JSON.stringify(data, null, 2);
+
+    // Add colors using ANSI escape codes
+    const colorized = formatted.replace(/"([^"]+)":/g, '\x1b[36m"$1":\x1b[0m')  // cyan for keys
+        .replace(/: "([^"]+)"/g, ': \x1b[32m"$1"\x1b[0m')  // green for string values
+        .replace(/: (true|false)/g, ': \x1b[33m$1\x1b[0m')  // yellow for booleans
+        .replace(/: (\d+)/g, ': \x1b[34m$1\x1b[0m');  // blue for numbers
+
+    console.log(colorized);
+}
+
+require('dotenv').config();
+const fastify = require('fastify')({
     logger: true,
     // Enable body parsing
     bodyLimit: 1048576 // 1MiB
 })
 
 async function testBQ() {
-    const {BigQuery} = require('@google-cloud/bigquery');
+    const { BigQuery } = require('@google-cloud/bigquery');
 
     // Create client instance
     const bigqueryClient = new BigQuery({
@@ -51,7 +64,8 @@ fastify.addContentTypeParser('application/json', { parseAs: 'string' }, function
 // Declare a route
 fastify.post('/analytics', async (request, reply) => {
     try {
-        console.log('Received body:', request.body);  // Debug log
+        console.log('\n🔍 Received Query Request:');
+        prettyPrint(request.body);
         const data = await testBQ();
         return {
             status: 'success',
@@ -59,7 +73,7 @@ fastify.post('/analytics', async (request, reply) => {
         }
     }
     catch (err) {
-        console.error('Error:', err);  // Debug log
+        console.error('Error:', err);
         return reply.code(500).send({
             status: 'error',
             message: err.message
@@ -68,7 +82,21 @@ fastify.post('/analytics', async (request, reply) => {
 })
 
 fastify.post('/pageLog', async (request, reply) => {
-    console.log('Received body:', request.body);  // Debug log
+    console.log('\n📊 Received Analytics Data:');
+    const data = typeof request.body === 'string' ? JSON.parse(request.body) : request.body;
+    prettyPrint(data);
+
+    // Fetch location data using IP-API
+    const locationResponse = await fetch(`http://ip-api.com/json/${data.ip}`);
+    const locationData = await locationResponse.json();
+
+    data.location = {
+        country: locationData.country || null,
+        region: locationData.regionName || null,
+        city: locationData.city || null,
+        town: locationData.city || null, // IP-API doesn't provide town specifically
+        org: locationData.org || null,
+    };
     return reply.code(200).send(request.body);
 });
 
