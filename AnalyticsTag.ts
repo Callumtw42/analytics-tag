@@ -28,7 +28,7 @@ interface UserData {
     indexedDB: boolean; 
 }
 
-export async function logUserData() {
+async function logUserData() {
     // User data collection structure populated with browser APIs
     const userData: UserData = {
         userAgent: navigator.userAgent,
